@@ -4,8 +4,8 @@ import pandas as pd
 import torch
 from torch.utils.data import DataLoader
 import numpy as np
-from demo01.model import same_seed, train_valid_split, My_Model, trainer, predict, save_pred
-from demo01.train_dataset import select_feat, TrainDataset
+from model import same_seed, train_valid_split, My_Model, trainer, predict, save_pred
+from train_dataset import select_feat, TrainDataset, formatDataSet
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 config = {
@@ -19,17 +19,25 @@ config = {
     'save_path': './models/model.ckpt'  # 模型存储的位置
 }
 
-
-
 if __name__ == '__main__':
-
-    brands = {'Asus': 1, "Lenovo": 2, "Acer": 3, "HP": 4, "Dell": 5}
-
     # 设置随机种子便于复现
     same_seed(config['seed'])
 
     pd.set_option('display.max_column', 200)  # 设置显示数据的列数
     train_df, test_df = pd.read_csv('./train.csv'), pd.read_csv('./test.csv')
+
+    train_df['Asus'] = train_df['Asus'].map({True: 'True',  False: 'False'})
+    train_df['Acer'] = train_df['Acer'].map({True: 'True',  False: 'False'})
+    train_df['Lenovo'] = train_df['Lenovo'].map({True: 'True',  False: 'False'})
+    train_df['HP'] = train_df['HP'].map({True: 'True',  False: 'False'})
+    train_df['Dell'] = train_df['Dell'].map({True: 'True',  False: 'False'})
+
+    test_df['Asus'] = test_df['Asus'].map({True: 'True',  False: 'False'})
+    test_df['Acer'] = test_df['Acer'].map({True: 'True',  False: 'False'})
+    test_df['Lenovo'] = test_df['Lenovo'].map({True: 'True',  False: 'False'})
+    test_df['HP'] = test_df['HP'].map({True: 'True',  False: 'False'})
+    test_df['Dell'] = test_df['Dell'].map({True: 'True',  False: 'False'})
+
     print(train_df.head(3))  # 显示前三行的样本
     train_data, test_data = train_df.values, test_df.values
     del train_df, test_df  # 删除数据减少内存占用
@@ -46,9 +54,9 @@ if __name__ == '__main__':
     # 打印出特征数量.
     print(f'number of features: {x_train.shape[1]}')
 
-    train_dataset, valid_dataset, test_dataset = TrainDataset(x_train, y_train), \
-        TrainDataset(x_valid, y_valid), \
-        TrainDataset(x_test)
+    train_dataset = TrainDataset(x_train, y_train)
+    valid_dataset = TrainDataset(x_valid, y_valid)
+    test_dataset = TrainDataset(x_test)
 
     # 使用Pytorch中Dataloader类按照Batch将数据集加载
     train_loader = DataLoader(train_dataset, batch_size=config['batch_size'], shuffle=True, pin_memory=True)
@@ -58,9 +66,7 @@ if __name__ == '__main__':
     model = My_Model(input_dim=x_train.shape[1]).to(device)  # 将模型和训练数据放在相同的存储位置(CPU/GPU)
     trainer(train_loader, valid_loader, model, config, device)
 
-
     # model = My_Model(input_dim=x_train.shape[1]).to(device)
     # model.load_state_dict(torch.load(config['save_path']))
     # preds = predict(test_loader, model, device)
     # save_pred(preds, 'pred.csv')
-
