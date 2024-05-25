@@ -102,3 +102,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+/Homework/HW1_Regression/runs
+Homework/HW1_Regression/pred.csv
+/demo01/runs
