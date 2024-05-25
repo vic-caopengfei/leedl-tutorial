@@ -22,21 +22,27 @@ config = {
 if __name__ == '__main__':
     # 设置随机种子便于复现
     same_seed(config['seed'])
-
+    typeMapping =  {'Asus': bool,'Acer': bool,'Lenovo': bool,'HP': bool,'Dell': bool,
+                    'Processor_Speed': 'float16',
+                    'RAM_Size': 'float16',
+                    'Storage_Capacity': 'float16',
+                    'Screen_Size': 'float16',
+                    'Weight': 'float16',
+                    'Price': 'float16'}
     pd.set_option('display.max_column', 200)  # 设置显示数据的列数
-    train_df, test_df = pd.read_csv('./train.csv'), pd.read_csv('./test.csv')
+    train_df, test_df = pd.read_csv('./train.csv', dtype=typeMapping), pd.read_csv('./test.csv', dtype=typeMapping)
 
-    train_df['Asus'] = train_df['Asus'].map({True: 'True',  False: 'False'})
-    train_df['Acer'] = train_df['Acer'].map({True: 'True',  False: 'False'})
-    train_df['Lenovo'] = train_df['Lenovo'].map({True: 'True',  False: 'False'})
-    train_df['HP'] = train_df['HP'].map({True: 'True',  False: 'False'})
-    train_df['Dell'] = train_df['Dell'].map({True: 'True',  False: 'False'})
-
-    test_df['Asus'] = test_df['Asus'].map({True: 'True',  False: 'False'})
-    test_df['Acer'] = test_df['Acer'].map({True: 'True',  False: 'False'})
-    test_df['Lenovo'] = test_df['Lenovo'].map({True: 'True',  False: 'False'})
-    test_df['HP'] = test_df['HP'].map({True: 'True',  False: 'False'})
-    test_df['Dell'] = test_df['Dell'].map({True: 'True',  False: 'False'})
+    # train_df['Asus'] = train_df['Asus'].map({True: 'True',  False: 'False'})
+    # train_df['Acer'] = train_df['Acer'].map({True: 'True',  False: 'False'})
+    # train_df['Lenovo'] = train_df['Lenovo'].map({True: 'True',  False: 'False'})
+    # train_df['HP'] = train_df['HP'].map({True: 'True',  False: 'False'})
+    # train_df['Dell'] = train_df['Dell'].map({True: 'True',  False: 'False'})
+    #
+    # test_df['Asus'] = test_df['Asus'].map({True: 'True',  False: 'False'})
+    # test_df['Acer'] = test_df['Acer'].map({True: 'True',  False: 'False'})
+    # test_df['Lenovo'] = test_df['Lenovo'].map({True: 'True',  False: 'False'})
+    # test_df['HP'] = test_df['HP'].map({True: 'True',  False: 'False'})
+    # test_df['Dell'] = test_df['Dell'].map({True: 'True',  False: 'False'})
 
     print(train_df.head(3))  # 显示前三行的样本
     train_data, test_data = train_df.values, test_df.values
