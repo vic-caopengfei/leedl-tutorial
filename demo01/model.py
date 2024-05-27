@@ -62,11 +62,11 @@ class My_Model(nn.Module):
         super(My_Model, self).__init__()
         # TODO: 修改模型结构, 注意矩阵的维度（dimensions）
         self.layers = nn.Sequential(
-            nn.Linear(input_dim, 12),
+            nn.Linear(input_dim, 20),
             nn.ReLU(),
-            nn.Linear(12, 6),
+            nn.Linear(20, 10),
             nn.ReLU(),
-            nn.Linear(6, 1)
+            nn.Linear(10, 1)
         )
 
     def forward(self, x):

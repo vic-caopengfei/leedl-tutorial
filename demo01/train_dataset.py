@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 from torch.utils.data import Dataset
 
-
 class TrainDataset(Dataset):
     '''
     x: np.ndarray  特征矩阵.
@@ -14,8 +13,8 @@ class TrainDataset(Dataset):
         if y is None:
             self.y = y
         else:
-            self.y = torch.FloatTensor(y)
-        self.x = torch.FloatTensor(x)
+            self.y = torch.FloatTensor(y.astype('float32'))
+        self.x = torch.FloatTensor(x.astype('float32'))
 
     def __getitem__(self, idx):
         if self.y is None:
