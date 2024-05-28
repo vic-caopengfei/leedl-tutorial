@@ -40,19 +40,20 @@ if __name__ == '__main__':
 
     # 特征选择
     x_train, x_valid, x_test, y_train, y_valid = select_feat(train_data, valid_data, test_data, config['select_all'])
-
+    # 计算均值
     target_mean = y_train.mean()
+    # 计算标准差 即方差
     target_std = y_train.std()
-
+    # 对特征进行标准化
     x_train_features_scaled = scaler.fit_transform(x_train)
     x_test_features_scaled = scaler.fit_transform(x_test)
     x_valid_features_scaled = scaler.fit_transform(x_valid)
-
+    # 对目标值进行标准化
     y_train_target = (y_train - y_train.mean()) / y_train.std()
     y_valid_target = (y_valid - y_valid.mean()) / y_valid.std()
 
 
-    # 打印出特征数量.
+    # 打印出特征数量
     print(f'number of features: {x_train.shape[1]}')
 
     train_dataset = TrainDataset(x_train_features_scaled, y_train_target)
@@ -70,5 +71,6 @@ if __name__ == '__main__':
     model = My_Model(input_dim=x_train.shape[1]).to(device)
     model.load_state_dict(torch.load(config['save_path']))
     test_predictions_scaled = predict(test_loader, model, device)
+    # 预测的结果是标准化过的，所以需要换成的真实的值
     test_predictions = test_predictions_scaled * target_std + target_mean
     save_pred(test_predictions, 'pred.csv')
