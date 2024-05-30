@@ -30,6 +30,7 @@ def same_seed(seed):
     torch.backends.cudnn.benchmark = False
     np.random.seed(seed)
     torch.manual_seed(seed)
+    # 判断是否有可用的显卡
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
     print(f'Set Seed = {seed}')
@@ -50,6 +51,7 @@ def predict(test_loader, model, device):
     preds = []
     for x in tqdm(test_loader):
         x = x.to(device)
+        # 禁用梯度计算
         with torch.no_grad():
             pred = model(x)
             preds.append(pred.detach().cpu())
