@@ -1,7 +1,7 @@
-from torchvision.models import resnet50
 import torch.nn as nn
 
-resNet = resnet50(pretrained=False)
+from torchvision import models
+model = models.resnet50(weights='ResNet50_Weights.DEFAULT')
 
 
 class Classifier(nn.Module):
