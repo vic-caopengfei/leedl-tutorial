@@ -108,3 +108,5 @@ Homework/HW1_Regression/pred.csv
 /demo01/.idea
 /demo01/HW01_FNN/runs
 /demo01/HW03_CNN/dataset
+/demo01/HW03_CNN/runs
+/demo01/HW03_CNN/models

@@ -9,20 +9,20 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 if __name__ == '__main__':
-    train_dir_root = './dataset/food11/training'
+    train_dir_root = '.\\dataset\\food11\\training'
     # quick_observe(train_dir_root)
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     config = {
         'seed': 6666,
-        'dataset_dir': "./dataset/food11",
+        'dataset_dir': ".\\dataset\\food11",
         'n_epochs': 10,
         'batch_size': 64,
         'learning_rate': 0.0003,
         'weight_decay': 1e-5,
         'early_stop': 300,
         'clip_flag': True,
-        'save_path': './models/model.ckpt',
-        'resnet_save_path': './models/resnet_model.ckpt'
+        'save_path': '.\\models\\model.ckpt',
+        'resnet_save_path': '.\\models\\resnet_model.ckpt'
     }
 
     test_tfm = transforms.Compose([
