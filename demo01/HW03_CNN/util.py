@@ -75,8 +75,9 @@ def trainer(train_loader, valid_loader, model, config, device, rest_net_flag=Fal
     writer = SummaryWriter()
     if not os.path.isdir('./models'):
         os.mkdir('./models')
-
+    #  math.inf 整数的最大值
     n_epochs, best_loss, step, early_stop_count = config['n_epochs'], math.inf, 0, 0
+    # 训练的循环次数
     for epoch in range(n_epochs):
         model.train()
         loss_record = []
